@@ -6,12 +6,13 @@ from django.contrib.auth.models import User
 #============ Items ===============
 
 class item(models.Model):
-    name    = models.CharField(max_length=254)
-    cnt     = models.IntegerField()
-    price   = models.DecimalField(max_digits=8,decimal_places=2)
-    is_avlb = models.BooleanField()
-    is_actv = models.BooleanField()
-    catigoty= models.ManyToManyField("category", through="itm_ctgr")
+    name       = models.CharField(max_length=254)
+    discription= models.CharField(max_length=254,null=True)
+    cnt        = models.IntegerField(null=True)
+    price      = models.DecimalField(max_digits=8,decimal_places=2)
+    is_avlb    = models.BooleanField(default=1)
+    is_actv    = models.BooleanField(default=1)
+    catigoty   = models.ManyToManyField("category", through="itm_ctgr")
 
 
 class itm_ctgr(models.Model):
@@ -22,6 +23,8 @@ class itm_ctgr(models.Model):
 class category(models.Model):
     name  = models.CharField(max_length=254)
     
+    def __str__(self) -> str:
+        return self.name
 
 #============ order ===============
 
