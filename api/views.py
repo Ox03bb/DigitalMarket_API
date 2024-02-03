@@ -3,7 +3,6 @@ from rest_framework.response    import Response
 from rest_framework.views       import APIView
 from rest_framework.decorators  import api_view
 from rest_framework             import status
-from django.contrib.auth.models import User
 
 from rest_framework.permissions    import IsAuthenticated
 from rest_framework.decorators      import authentication_classes,permission_classes,throttle_classes
@@ -11,7 +10,7 @@ from rest_framework.decorators      import authentication_classes,permission_cla
 
 from . import views
 from .models import item,category,cart,order
-from .serializers import items_srlz,items_srlz_mngr,category_srlz,POST_items_srlz,user_srlz
+from .serializers import items_srlz,items_srlz_mngr,category_srlz,POST_items_srlz
 
 
 @api_view(["GET"])
@@ -63,9 +62,47 @@ def srch(rqst,name=None,prc=None,min_prc=None,max_prc=None,dt=None):
             
             
         return dt
+#?====================| updater |====================
+def updater(rqst,inp):
+    item_old = item.objects.get(id=inp)
+    mngr = rqst.user.groups.filter(name = "manager").exists()
+    cnt = 0
+    if mngr:
+        
+        if "name" in rqst.data :
+            item_old.name = rqst.data["name"]
+            cnt += 1
+            
+        if "cnt" in rqst.data:
+            item_old.cnt = rqst.data["cnt"]  
+            cnt += 1
+            
+        if "price" in rqst.data:
+            item_old.price = rqst.data["price"]
+            cnt += 1
+            
+        if "is_actv" in rqst.data:
+            item_old.is_actv = rqst.data["is_actv"]
+            cnt += 1
+            
+        if "is_avlb" in rqst.data:
+            item_old.is_avlb = rqst.data["is_avlb"]
+            cnt += 1
+            
+        if "discription" in rqst.data:
+            item_old.discription = rqst.data["discription"]
+            cnt += 1
+        sz = items_srlz_mngr(item_old)
+        if sz.is_valid and cnt > 0:
+            item_old.save()
+            return Response({"msg":"Updated"},200)
+        return Response({"msg":"bad request"},400)
 
 
+    else:
+        return Response({"msg":"you cant do this process"},403)
 
+    
 #!=====================================================
 
 @api_view(["GET","POST","PUT","DELETE"])
@@ -123,13 +160,13 @@ def menu_items(rqst,inp=None):
     if (rqst.method == "PUT"): #update
         if is_mngr(rqst) :
             if inp:
-                dt = rqst.data
+                # dt = rqst.data
 
-                sz = POST_items_srlz(data = dt)
-                if sz.is_valid():
+                # sz = POST_items_srlz(data = dt)
+                # if sz.is_valid():
 
-                    item.objects.filter(id = inp).update(**dt)
-                    return Response({"msg":"update"},201)
+                #     item.objects.filter(id = inp).update(**dt)
+                return updater(rqst,inp)
             return Response({"msg":"bad request"},400)
         
         return Response({"msg":"you cant do this process"},403)
