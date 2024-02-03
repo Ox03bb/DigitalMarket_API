@@ -3,6 +3,7 @@ from rest_framework.response    import Response
 from rest_framework.views       import APIView
 from rest_framework.decorators  import api_view
 from rest_framework             import status
+from django.contrib.auth.models import User
 
 from rest_framework.permissions    import IsAuthenticated
 from rest_framework.decorators      import authentication_classes,permission_classes,throttle_classes
@@ -10,7 +11,7 @@ from rest_framework.decorators      import authentication_classes,permission_cla
 
 from . import views
 from .models import item,category,cart,order
-from .serializers import items_srlz,items_srlz_mngr,category_srlz,POST_items_srlz
+from .serializers import items_srlz,items_srlz_mngr,category_srlz,POST_items_srlz,user_srlz
 
 
 @api_view(["GET"])
@@ -142,3 +143,4 @@ def menu_items(rqst,inp=None):
             return Response({"msg":"bad request"},400)
         
         return Response({"msg":"you cant do this process"},403)
+    
