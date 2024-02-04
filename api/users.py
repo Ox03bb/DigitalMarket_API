@@ -2,7 +2,8 @@ from django.http                import HttpResponse,JsonResponse
 from rest_framework.response    import Response
 from rest_framework.views       import APIView
 from rest_framework             import status
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
+from rest_framework.authtoken.models import Token
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -39,7 +40,12 @@ def updater(rqst,inp):
                 if User.objects.filter(email = rqst.data["email"]):
                    return Response({"msg":"exists email"},400)
                 usr_oldt.email = rqst.data["email"]
-
+        
+        if "groups" in rqst.data :
+            # - for delet gfrom group || split for add in many groups one time
+            grp = Group.objects.filter(id__in=rqst.data["groups"])
+            usr_oldt.groups.set(grp)
+            
         if "is_superuser" in rqst.data:
                 usr_oldt.is_superuser = rqst.data["is_superuser"]
 
@@ -65,7 +71,7 @@ def updater(rqst,inp):
         return Response({"msg":"bad request"},400)
 
 
-# @permission_classes([AllowAny])   
+@permission_classes([AllowAny])   
 @api_view(["GET","PUT","DELETE"])
 def users(rqst,inp=None):
     
@@ -106,6 +112,7 @@ def users(rqst,inp=None):
                 return Response({"msg":"bad request"},400)
 
 
+@permission_classes([IsAuthenticated])   
 @api_view(["GET","PUT","DELETE"])
 def me(rqst):
     if rqst.method == "GET":
@@ -127,20 +134,21 @@ def me(rqst):
     
     
 #!======================-| Auth |-===========================
-# @permission_classes([AllowAny])   
+from rest_framework.authtoken.views import obtain_auth_token
+
+@permission_classes([IsAuthenticated])   
 @api_view(["POST"])
-def login(rqst):
+def logout(rqst):
     
     if rqst.method == "POST":
+        
         try:
-            user = User.objects.get(username=rqst.data["username"])
-            if user.check_password(raw_password=rqst.data["password"]):
-                key = Token.generate_key()
-                Token.objects.create(key,user.id) 
-                return Response({"msg":"authNed"},200) 
+            tkn = Token.objects.get(user_id=rqst.user.id)
+            tkn.delete()
+            return Response({"msg":"Logout done"},200)
 
         except:
-            return Response({"msg":"Error"},400)
+            return Response({"logout":"Error"},400)
     return Response({"msg":"Error"},400)
     
 

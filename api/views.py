@@ -71,6 +71,11 @@ def updater(rqst,inp):
         if "name" in rqst.data :
             item_old.name = rqst.data["name"]
             cnt += 1
+        
+        if "catigoty" in rqst.data :
+            ctg = category.objects.filter(id__in=rqst.data["catigoty"])
+            item_old.catigoty.set(ctg)
+            cnt += 1
             
         if "cnt" in rqst.data:
             item_old.cnt = rqst.data["cnt"]  
@@ -145,7 +150,7 @@ def menu_items(rqst,inp=None):
             return Response({"item":sz.data},200)
     
     if (rqst.method == "POST"):
-        if is_mngr():
+        if is_mngr(rqst):
             dt = rqst.data
             sz = POST_items_srlz(data = dt)
 
