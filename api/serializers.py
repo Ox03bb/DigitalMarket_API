@@ -40,7 +40,7 @@ class mngr_srlz(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id","username","first_name","last_name","email","groups","date_joined","last_login","is_superuser","is_staff","is_active"]
-        read_only_fields = ["date_joined","last_login"]
+        read_only_fields = ["id","date_joined","last_login"]
 
 class user_srlz(serializers.ModelSerializer):
     groups = serializers.StringRelatedField(many=True)

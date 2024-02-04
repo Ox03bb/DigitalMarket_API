@@ -1,12 +1,11 @@
 from django.http                import HttpResponse,JsonResponse
 from rest_framework.response    import Response
 from rest_framework.views       import APIView
-from rest_framework.decorators  import api_view
 from rest_framework             import status
 
-from rest_framework.permissions    import IsAuthenticated
-from rest_framework.decorators      import authentication_classes,permission_classes,throttle_classes
-
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.authentication import TokenAuthentication
 
 from . import views
 from .models import item,category,cart,order
@@ -104,7 +103,7 @@ def updater(rqst,inp):
 
     
 #!=====================================================
-
+@permission_classes([AllowAny])   
 @api_view(["GET","POST","PUT","DELETE"])
 def menu_items(rqst,inp=None):
     ord_var = rqst.query_params.get("ord") # ordring by

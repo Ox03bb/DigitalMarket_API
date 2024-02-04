@@ -1,12 +1,12 @@
 from django.http                import HttpResponse,JsonResponse
 from rest_framework.response    import Response
 from rest_framework.views       import APIView
-from rest_framework.decorators  import api_view
 from rest_framework             import status
 from django.contrib.auth.models import User
 
-from rest_framework.permissions    import IsAuthenticated
-from rest_framework.decorators      import authentication_classes,permission_classes,throttle_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.authentication import TokenAuthentication
 
 
 from . import views
@@ -14,6 +14,7 @@ from .models import item,category,cart,order
 from .serializers import user_srlz,mngr_srlz
 
 from rest_framework.authtoken.models import Token
+
 
 def updater(rqst,inp):
     usr_oldt = User.objects.get(id=inp)
@@ -33,32 +34,23 @@ def updater(rqst,inp):
         usr_oldt.first_name = rqst.data["last_name"]
 
 #!================|For mngr_only |==========================
-    if "email" in rqst.data:
+    if mngr:
+        if "email" in rqst.data:
+                if User.objects.filter(email = rqst.data["email"]):
+                   return Response({"msg":"exists email"},400)
+                usr_oldt.email = rqst.data["email"]
 
-        if mngr:
+        if "is_superuser" in rqst.data:
+                usr_oldt.is_superuser = rqst.data["is_superuser"]
 
-            if User.objects.filter(email = rqst.data["email"]):
+        if "is_staff" in rqst.data:
+                usr_oldt.is_staff = rqst.data["is_staff"]
 
-                return Response({"msg":"exists email"},400)
-                 
-            usr_oldt.email = rqst.data["email"]
-        else:
+        if "is_active" in rqst.data:
+                usr_oldt.is_active = rqst.data["is_active"]
+    else:
+        if "email" in rqst.data or "is_superuser" in rqst.data or "is_staff" in rqst.data or "is_active" in rqst.data:
             return Response({"msg":"you cant do this process"},403)
-
-    if "is_superuser" in rqst.data:
-        if mngr:
-            usr_oldt.is_superuser = rqst.data["is_superuser"]
-        return Response({"msg":"you cant do this process"},403)
-    
-    if "is_staff" in rqst.data:
-        if mngr:
-            usr_oldt.is_staff = rqst.data["is_staff"]
-        return Response({"msg":"you cant do this process"},403)
-    
-    if "is_active" in rqst.data:
-        if mngr:
-            usr_oldt.is_active = rqst.data["is_active"]
-        return Response({"msg":"you cant do this process"},403)
 #!===============================================================
 
     if mngr:
@@ -73,12 +65,12 @@ def updater(rqst,inp):
         return Response({"msg":"bad request"},400)
 
 
-    
+# @permission_classes([AllowAny])   
 @api_view(["GET","PUT","DELETE"])
 def users(rqst,inp=None):
     
     if rqst.method == "GET": 
-        if rqst.user.groups.filter(name = "manager").exists():
+        if rqst.user.groups.filter(name="manager").exists():
             if inp:
                 try:
                     inp = int(inp)
@@ -92,7 +84,7 @@ def users(rqst,inp=None):
                 sz = mngr_srlz(usr,many=True)
                 return Response({"users":sz.data},200)
         else:
-            return Response({"msg":"you cant do this process"},403)
+            return Response({"users_func_GET":"you cant do this process"},403)
 
     if rqst.method == "PUT": 
         if rqst.user.groups.filter(name = "manager").exists():  
@@ -113,7 +105,8 @@ def users(rqst,inp=None):
             else:
                 return Response({"msg":"bad request"},400)
 
-@api_view(["GET","POST","PUT","DELETE"])
+
+@api_view(["GET","PUT","DELETE"])
 def me(rqst):
     if rqst.method == "GET":
         usr = rqst.user.id
@@ -121,4 +114,33 @@ def me(rqst):
         sz = user_srlz(dt,many=True)
         return Response({"me":sz.data},200)
     
+    if rqst.method == "PUT":
+        usr = rqst.user.id
+        return updater(rqst,usr)
     
+    if rqst.method == "DELETE":
+        usr_id = rqst.user.id
+        usr = User.objects.get(id=usr_id)
+        usr.is_active = 0
+        usr.save()
+        return Response({"msg":"disactivated"},200)
+    
+    
+#!======================-| Auth |-===========================
+# @permission_classes([AllowAny])   
+@api_view(["POST"])
+def login(rqst):
+    
+    if rqst.method == "POST":
+        try:
+            user = User.objects.get(username=rqst.data["username"])
+            if user.check_password(raw_password=rqst.data["password"]):
+                key = Token.generate_key()
+                Token.objects.create(key,user.id) 
+                return Response({"msg":"authNed"},200) 
+
+        except:
+            return Response({"msg":"Error"},400)
+    return Response({"msg":"Error"},400)
+    
+
