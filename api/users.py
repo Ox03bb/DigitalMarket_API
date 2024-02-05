@@ -4,6 +4,7 @@ from rest_framework.views       import APIView
 from rest_framework             import status
 from django.contrib.auth.models import User,Group
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.hashers import make_password
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -12,10 +13,13 @@ from rest_framework.authentication import TokenAuthentication
 
 from . import views
 from .models import item,category,cart,order
-from .serializers import user_srlz,mngr_srlz
+from .serializers import user_srlz,mngr_srlz,POST_user_srlz
 
 from rest_framework.authtoken.models import Token
 
+import re
+
+#?================|updater Function |===================
 
 def updater(rqst,inp):
     usr_oldt = User.objects.get(id=inp)
@@ -30,7 +34,15 @@ def updater(rqst,inp):
         
     if "first_name" in rqst.data:
         usr_oldt.first_name = rqst.data["first_name"]  
-        
+    
+    if "password" in rqst.data:
+        if chek_pass(rqst,usr_oldt) :
+            rqst.data["password"]  = make_password(rqst.data["password"] )
+        return Response({"msg":"Bad password"},400)
+
+    if "last_name" in rqst.data:
+        usr_oldt.first_name = rqst.data["last_name"]
+    
     if "last_name" in rqst.data:
         usr_oldt.first_name = rqst.data["last_name"]
 
@@ -70,9 +82,55 @@ def updater(rqst,inp):
     else:
         return Response({"msg":"bad request"},400)
 
+#?===============================================================
+#?=================|check_password Function |====================
+def chek_pass(rqst,usr_oldt=None):
+    first_tst = 0
+    pss =rqst.data["password"]
+    ln = len(pss)
+    ptt ="(?=.*[0-9]?)(?=.*[a-z])(?=.*[A-Z])(?=.*\W?)(?!.* ).{8,32}"
+    #at least : Aa
+    
+    if  ln < 8 or ln >= 32:
+        return 0
+    
+    if rqst.method == "POST":
+        if rqst.data["username"] :
+            if pss == rqst.data["username"]:
+                return 0
+        if rqst.data["email"] :
+            if pss == rqst.data["email"]:
+                return 0
+        if rqst.data["first_name"] :
+            if pss == rqst.data["first_name"]:
+                return 0
+        if rqst.data["last_name"] :
+            if pss == rqst.data["last_name"]:
+                return 0
+        first_tst = 1    
+        
+    elif rqst.method == "PUT" and usr_oldt:
+        
+        if pss == usr_oldt.username:
+            return 0
+        if pss == usr_oldt.email:
+            return 0
+        if pss == usr_oldt.first_name:
+            return 0
+        if pss == usr_oldt.last_name:
+            return 0
+        
+        first_tst = 1 
+        
+    if re.search(pattern=ptt,string=pss) and first_tst == 1 :
+        return 1
+    
+    return 0
+#?===============================================================
+
 
 @permission_classes([AllowAny])   
-@api_view(["GET","PUT","DELETE"])
+@api_view(["GET","POST","PUT","DELETE"])
 def users(rqst,inp=None):
     
     if rqst.method == "GET": 
@@ -92,6 +150,24 @@ def users(rqst,inp=None):
         else:
             return Response({"users_func_GET":"you cant do this process"},403)
 
+    if rqst.method == "POST": #Create New_User 
+        
+        dt = rqst.data
+        pss = rqst.data["password"]
+
+        if chek_pass(rqst):
+            rqst.data["password"] = make_password(pss)
+            dt = rqst.data
+            sz = POST_user_srlz(data = dt)
+            if sz.is_valid():
+                
+                User.objects.create(**sz.data)
+                
+                return Response({"user":"Created"},200)
+            print(sz.data)
+            return Response({"user":"bad request"},400)
+        return Response({"user":"unvalid password"},400)
+    
     if rqst.method == "PUT": 
         if rqst.user.groups.filter(name = "manager").exists():  
             
