@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import item
+from .models import item,itme_in_cart
 
 from django.contrib.auth.models import User
 
@@ -56,3 +56,11 @@ class POST_user_srlz(serializers.Serializer):
     first_name = serializers.CharField(max_length=150)
     last_name  = serializers.CharField(max_length=150)
 
+#?================| Cart |======================
+
+class cart_item_srlz(serializers.ModelSerializer):
+    class Meta:
+        model = itme_in_cart
+        fields = ["id","cart_id_id","itm_id_id","itm_cnt"]
+        # read_only_fields = ["id","date_joined","last_login"]
+        # extra_kwargs = {'password': {'write_only': True}}

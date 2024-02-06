@@ -41,13 +41,13 @@ class ord_itm(models.Model):
     cnt    = models.IntegerField()
 
 
-#============ Cart ===============
+# #============ Cart ===============
 class cart(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    itm_id  = models.ForeignKey(item, on_delete=models.CASCADE)
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE) #OneToOneField make teh coulmn uniq
+
 
 class itme_in_cart(models.Model):
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+    cart_id = models.ForeignKey(cart, on_delete=models.CASCADE)
     itm_id  = models.ForeignKey(item, on_delete=models.CASCADE)
     itm_cnt = models.IntegerField()
     

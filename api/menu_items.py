@@ -7,8 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.authentication import TokenAuthentication
 
-from . import views
-from .models import item,category,cart,order
+from .models import item,category,order
 from .serializers import items_srlz,items_srlz_mngr,category_srlz,POST_items_srlz
 
 

@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.authentication import TokenAuthentication
 
 
-from .models import item,category,cart,order
+from .models import item,category,order,cart
 from .serializers import user_srlz,mngr_srlz,POST_user_srlz
 
 from rest_framework.authtoken.models import Token
@@ -161,7 +161,8 @@ def users(rqst,inp=None):
             sz = POST_user_srlz(data = dt)
             if sz.is_valid():
                 
-                User.objects.create(**sz.data)
+                user = User.objects.create(**sz.data)
+                cart.objects.create(user_id_id= user.id)
                 
                 return Response({"user":"Created"},200)
             print(sz.data)
