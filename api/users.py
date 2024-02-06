@@ -11,7 +11,6 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.authentication import TokenAuthentication
 
 
-from . import views
 from .models import item,category,cart,order
 from .serializers import user_srlz,mngr_srlz,POST_user_srlz
 
@@ -292,4 +291,3 @@ def logout(rqst):
             return Response({"logout":"Error"},400)
     return Response({"msg":"Error"},400)
     
-

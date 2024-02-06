@@ -1,11 +1,11 @@
 from django.urls import path,include
-from . import views,users
+from . import menu_items,users
 from rest_framework.authtoken.views import Token
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
-    path('menu-items/',views.menu_items),
-    path('menu-items/<str:inp>',views.menu_items ),
+    path('menu-items/',menu_items.menu_items),
+    path('menu-items/<str:inp>',menu_items.menu_items ),
 
     path('users/',users.users ),
     path('users/me',users.me ),
@@ -18,5 +18,6 @@ urlpatterns = [
     path('groups/delivery-crew/users',users.all_dely ),
     path('groups/delivery-crew/users/<str:inp>',users.all_dely ),
 
+    path('/api/cart/menu-items',users.all_mngr),
 
 ]
