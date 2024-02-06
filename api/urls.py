@@ -12,5 +12,11 @@ urlpatterns = [
     path('users/login',obtain_auth_token ),
     path('users/logout',users.logout ),
     path('users/<str:inp>',users.users),
-     
+    
+    path('groups/manager/users',users.all_mngr),
+    path('groups/manager/users/<str:inp>',users.all_mngr),
+    path('groups/delivery-crew/users',users.all_dely ),
+    path('groups/delivery-crew/users/<str:inp>',users.all_dely ),
+
+
 ]

@@ -39,19 +39,20 @@ class mngr_srlz(serializers.ModelSerializer):
     groups = serializers.StringRelatedField(many=True)
     class Meta:
         model = User
-        fields = ["id","username","password","first_name","last_name","email","groups","date_joined","last_login","is_superuser","is_staff","is_active"]
+        fields = ["id","username","first_name","last_name","email","groups","date_joined","last_login","is_superuser","is_staff","is_active"]
         read_only_fields = ["id","date_joined","last_login"]
-
+        extra_kwargs = {'password': {'write_only': True}}
 class user_srlz(serializers.ModelSerializer):
     groups = serializers.StringRelatedField(many=True)
     class Meta:
         model = User
         fields = ["id","username","password","first_name","last_name","email","groups","date_joined","last_login"]
         read_only_fields = ["id","groups","date_joined","last_login"]
-
+        extra_kwargs = {'password': {'write_only': True}}
 class POST_user_srlz(serializers.Serializer):
     username   = serializers.CharField(max_length=150)
     password   = serializers.CharField(max_length=128)
     email      = serializers.CharField(max_length=128)
     first_name = serializers.CharField(max_length=150)
     last_name  = serializers.CharField(max_length=150)
+

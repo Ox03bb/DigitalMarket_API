@@ -38,7 +38,8 @@ def updater(rqst,inp):
     if "password" in rqst.data:
         if chek_pass(rqst,usr_oldt) :
             rqst.data["password"]  = make_password(rqst.data["password"] )
-        return Response({"msg":"Bad password"},400)
+        else:    
+            return Response({"msg":"Bad password"},400)
 
     if "last_name" in rqst.data:
         usr_oldt.first_name = rqst.data["last_name"]
@@ -207,8 +208,72 @@ def me(rqst):
         usr.is_active = 0
         usr.save()
         return Response({"msg":"disactivated"},200)
+
+#?======================-| groups/manager |-===========================
+@api_view(["GET","POST","DELETE"])
+def all_mngr(rqst,inp=None):
     
+    if rqst.user.groups.filter(name = "manager").exists():
+        if rqst.method == "GET":
+                usr = User.objects.filter(groups__name='manager')
+                sz = mngr_srlz(usr,many=True)
+                return Response({"managers":sz.data},200)
+
+        if rqst.method == "POST":
+            uid = int(rqst.data["id"])
+            if uid >= 0:  #For add user from mngr group
+                grp = Group.objects.filter(name="manager")
+                user = User.objects.get(id = rqst.data["id"])
+                user.groups.set(grp)
+                return Response({"msg":"user upgraded"},200)
+            else: #For delet user from mngr group
+                grp = Group.objects.get(name="manager")
+                uid = int(rqst.data["id"])
+                user = User.objects.get(id = -uid )
+                user.groups.remove(int(grp.id))
+                return Response({"msg":"user degraded"},200)
+        
+        if rqst.method == "DELETE":
+            grp = Group.objects.get(name="Delivery_crew")
+            user = User.objects.get(id = inp)
+            user.groups.remove(int(grp.id))
+            return Response({"msg":"user degraded"},200)
+        
+    return Response({"msg":"Forbiden"},403)
+
+@api_view(["GET","POST","DELETE"])
+def all_dely(rqst,inp=None):
     
+    if rqst.user.groups.filter(name = "manager").exists():
+        if rqst.method == "GET":
+                usr = User.objects.filter(groups__name='Delivery_crew')
+                sz = mngr_srlz(usr,many=True)
+                return Response({"Delivery_crew":sz.data},200)
+
+        if rqst.method == "POST":
+            uid = int(rqst.data["id"])
+            if uid >= 0:  #For add user from mngr group
+                grp = Group.objects.filter(name="Delivery_crew")
+                user = User.objects.get(id = rqst.data["id"])
+                user.groups.set(grp)
+                return Response({"msg":"user upgraded"},200)
+            else: #For delet user from mngr group
+                grp = Group.objects.get(name="Delivery_crew")
+                uid = int(rqst.data["id"])
+                user = User.objects.get(id = -uid )
+                user.groups.remove(int(grp.id))
+                return Response({"msg":"user degraded"},200)
+
+        if rqst.method == "DELETE":
+            grp = Group.objects.get(name="Delivery_crew")
+            user = User.objects.get(id = inp )
+            user.groups.remove(int(grp.id))
+            return Response({"msg":"user degraded"},200)
+    
+    return Response({"msg":"Forbiden"},403)
+
+#?======================-==================-===========================
+
 #!======================-| Auth |-===========================
 from rest_framework.authtoken.views import obtain_auth_token
 
