@@ -20,8 +20,12 @@ from rest_framework.authtoken.models import Token
 @permission_classes([IsAuthenticated])   
 @api_view(["GET","POST","PUT","DELETE"])
 def cart_fncs(rqst):
+      
+    if IsAuthenticated().has_permission(rqst,None):
+        cid = cart.objects.get(user_id_id = rqst.user.id)
+    else:
+        return Response({"msg":"U have to Authenticate"},401)
 
-    cid      = cart.objects.get(user_id_id = rqst.user.id)
     if rqst.method == "GET":        
         itm_in_c = itme_in_cart.objects.filter(cart_id_id = cid.id)
         if not itm_in_c:
@@ -71,16 +75,57 @@ def cart_fncs(rqst):
                 
                 itme_in_cart.objects.create(cart_id_id=cid.id, itm_id_id=rqst.data["id"], itm_cnt=rqst.data["cnt"])          
             
-            return Response({"msg":"added to cart 2"},200)
+            return Response({"msg":"added to cart "},200)
 
         except:       
             return Response({"msg":"item does not exist"},400)
     
     if rqst.method == "PUT":
-        # delet one item from cart
-        #change cnt
-        pass
+       
+        if rqst.data["id"] and rqst.data["cnt"]:
+            try:#data validation
+                int(rqst.data["id"])
+                int(rqst.data["cnt"])
+            except:
+                return Response({"msg":"bad rqst"},400)
+           
+            try: 
+                itm = item.objects.get(id = rqst.data["id"])
+                if int(itm.cnt) <  int(rqst.data["cnt"]):
+                    return Response({"msg":"the cnt u rqst is grater then what is avaliable"},400)
+                else:
+
+                    if int(rqst.data["cnt"]) == 0:
+                        itm = itme_in_cart.objects.get(cart_id_id=cid.id,itm_id_id=rqst.data["id"]).delete()
+                        return Response({"msg":"Updated"},200)
+                    elif int(rqst.data["cnt"]) > 0:
+                        itm = itme_in_cart.objects.get(cart_id_id=cid.id,itm_id_id=rqst.data["id"])
+                        itm.itm_cnt =  rqst.data["cnt"]
+                        itm.save()
+                        return Response({"msg":"Updated"},200)
+                    else:
+                        return Response({"msg":"bad rqst"},400)
+            except:
+                return Response({"msg":"item does not exist in your cart"},400)
+           
+        elif rqst.data["id"] :
+            try:#data validation
+                int(rqst.data["id"])
+            except:
+                return Response({"msg":"bad rqst"},400)
+            try:
+                itm = itme_in_cart.objects.get(cart_id_id=cid.id,itm_id_id=rqst.data["id"]).delete()
+                return Response({"msg":"cart cleaned"},200)
+
+            except:
+                return Response({"msg":"item does not exist in your cart"},400)
+        
+        else:
+            return Response({"msg":"Bad rqst"},400)
         
     if rqst.method == "DELETE":
-        itm = itme_in_cart.objects.filter(cart_id_id=cid.id).delete()
-        return Response({"msg":"cart cleaned"},200)
+        try:
+            itm = itme_in_cart.objects.get(cart_id_id=cid.id).delete()
+            return Response({"msg":"item was deleted"},200)     
+        except:
+            return Response({"msg":"item not found"},400)

@@ -10,7 +10,6 @@ class item(models.Model):
     discription= models.CharField(max_length=254,null=True)
     cnt        = models.IntegerField(null=True)
     price      = models.DecimalField(max_digits=8,decimal_places=2)
-    is_avlb    = models.BooleanField(default=1)
     is_actv    = models.BooleanField(default=1)
     catigoty   = models.ManyToManyField("category", through="itm_ctgr")
 
