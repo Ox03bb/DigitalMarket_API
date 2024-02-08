@@ -64,3 +64,20 @@ class cart_item_srlz(serializers.ModelSerializer):
         fields = ["id","cart_id_id","itm_id_id","itm_cnt"]
         # read_only_fields = ["id","date_joined","last_login"]
         # extra_kwargs = {'password': {'write_only': True}}
+    
+    
+#?================| Order |======================
+    
+class ord_srlz(serializers.ModelSerializer):
+    class Meta:
+        model = itme_in_cart
+        fields = ["id","user_id","date","is_deliverd"]
+        # read_only_fields = ["id","date_joined","last_login"]
+        # extra_kwargs = {'password': {'write_only': True}}
+        
+class ord_itm_srlz(serializers.ModelSerializer):
+    class Meta:
+        model = itme_in_cart
+        fields = ["id","itm_id_id","cnt","ord_id_id"]
+        # read_only_fields = ["id","date_joined","last_login"]
+        # extra_kwargs = {'password': {'write_only': True}}

@@ -29,10 +29,11 @@ class category(models.Model):
 
 class order(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
-    price   = models.DecimalField(max_digits=8,decimal_places=2)
+    # price   = models.DecimalField(max_digits=8,decimal_places=2)
     date    = models.DateField()
     is_deliverd = models.BooleanField()
-    catigoty= models.ManyToManyField(item, through="ord_itm")
+    # catigoty= models.ManyToManyField(item, through="ord_itm")
+
 
 class ord_itm(models.Model):
     itm_id = models.ForeignKey(item, on_delete=models.PROTECT)

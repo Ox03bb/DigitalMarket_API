@@ -1,5 +1,5 @@
 from django.urls import path,include
-from . import menu_items,users,cart
+from . import menu_items,users,cart,order
 from rest_framework.authtoken.views import Token
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -18,6 +18,6 @@ urlpatterns = [
     path('groups/delivery-crew/users',users.all_dely ),
     path('groups/delivery-crew/users/<str:inp>',users.all_dely ),
 
-    path('cart/menu-items',cart.cart_fncs),
+    path('orders',order.ord_fncs),
 
 ]

@@ -1,20 +1,12 @@
-from django.http                import HttpResponse,JsonResponse
 from rest_framework.response    import Response
-from rest_framework.views       import APIView
-from rest_framework             import status
-from django.contrib.auth.models import User,Group
-from rest_framework.authtoken.models import Token
-from django.contrib.auth.hashers import make_password
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.authentication import TokenAuthentication
 
-
 from .models import item,itme_in_cart,cart
 from .serializers import cart_item_srlz,items_srlz
 
-from rest_framework.authtoken.models import Token
 
 
 @permission_classes([IsAuthenticated])   
