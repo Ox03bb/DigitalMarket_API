@@ -17,20 +17,11 @@ def ord_fncs(rqst):
     if rqst.method == "GET":  
         if rqst.user.groups.filter(name = "manager").exists():
             allord = order.objects.all()
-            orditm = ord_itm.objects.all()
+            # orditm = ord_itm.objects.all()
             
             sz_all = ord_srlz(allord,many=True)
-            print(allord)
-            print(sz_all.data)
-            i = 0
-            # try:
-            #     dt = sz_all.data
-            #     print("====================")
-            #     print(allord)
-            #     while i > -1:
-            #         print(dt[i])
-            #         i += 1
-            # except:
-            return Response(200)         
+            #! print(sz_all.data[0]["ord_itm"])
+          
+            return Response({"orders":sz_all.data},200)         
             
             

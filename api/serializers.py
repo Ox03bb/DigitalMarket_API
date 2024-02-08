@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import item,itme_in_cart
+from .models import item,itme_in_cart,order,ord_itm
 
 from django.contrib.auth.models import User
 
@@ -68,16 +68,17 @@ class cart_item_srlz(serializers.ModelSerializer):
     
 #?================| Order |======================
     
-class ord_srlz(serializers.ModelSerializer):
-    class Meta:
-        model = itme_in_cart
-        fields = ["id","user_id","date","is_deliverd"]
-        # read_only_fields = ["id","date_joined","last_login"]
-        # extra_kwargs = {'password': {'write_only': True}}
-        
 class ord_itm_srlz(serializers.ModelSerializer):
     class Meta:
-        model = itme_in_cart
+        model = ord_itm
         fields = ["id","itm_id_id","cnt","ord_id_id"]
         # read_only_fields = ["id","date_joined","last_login"]
         # extra_kwargs = {'password': {'write_only': True}}
+class ord_srlz(serializers.ModelSerializer):
+    ord_itm =items_srlz(many=True, read_only=True)
+    class Meta:
+        model = order
+        fields = ["id","user_id","date","is_deliverd","ord_itm"]
+        # read_only_fields = ["id","date_joined","last_login"]
+        # extra_kwargs = {'password': {'write_only': True}}
+        

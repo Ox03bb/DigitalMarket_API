@@ -32,12 +32,12 @@ class order(models.Model):
     # price   = models.DecimalField(max_digits=8,decimal_places=2)
     date    = models.DateField()
     is_deliverd = models.BooleanField()
-    # catigoty= models.ManyToManyField(item, through="ord_itm")
+    ord_itm = models.ManyToManyField(item, through="ord_itm")
 
 
 class ord_itm(models.Model):
     itm_id = models.ForeignKey(item, on_delete=models.PROTECT)
-    ord_id = models.ForeignKey(order, on_delete=models.PROTECT)
+    ord_id = models.ForeignKey(order, on_delete=models.CASCADE, related_name='ord_itms')
     cnt    = models.IntegerField()
 
 
