@@ -9,7 +9,7 @@ urlpatterns = [
 
     path('users/',users.users ),
     path('users/me',users.me ),
-    path('users/login',obtain_auth_token ),
+    path('users/login',users.login),
     path('users/logout',users.logout ),
     path('users/<str:inp>',users.users),
     

@@ -11,7 +11,7 @@ from .serializers import cart_item_srlz,items_srlz,ord_srlz,ord_itm_srlz
 
 
 @permission_classes([IsAuthenticated])   
-@api_view(["GET","POST","PUT","DELETE"])
+@api_view(["GET","POST","PATCH","DELETE"])
 def ord_fncs(rqst,inp=None):
     
     if rqst.method == "GET":  
@@ -45,11 +45,12 @@ def ord_fncs(rqst,inp=None):
                 cnt += 1
                 
         except:
+
             itm_arr = []
             cnt_arr = []
             cnt = 0
             Citm = itme_in_cart.objects.filter(cart_id_id=cid)
-            print(Citm[cnt].itm_cnt)
+
             try:
                 while 1:
                     itm_arr.append(int(Citm[cnt].itm_id_id))
@@ -63,17 +64,37 @@ def ord_fncs(rqst,inp=None):
                     new_cnt =  int(itm.cnt)
                     new_cnt -= cnt_arr[cnt]
                     if new_cnt == 0:
-                        # itm.update(cnt= 0,is_actv=0)
                         itm.cnt = 0
                         itm.is_actv =0
                         itm.save()
                     elif new_cnt > 0:
-                        # itm.update(cnt= new_cnt)
-                        print(new_cnt)
                         itm.cnt = new_cnt
                         itm.save()
 
                     cnt += 1
              
                 Citm.delete()
-                return Response(200) 
+                return Response(status=200) 
+            
+    if rqst.method == "PATCH":
+        
+        if rqst.user.groups.filter(name = "Delivery_crew").exists():
+            if inp:
+
+                ord = order.objects.get(id = inp)
+                ord.is_deliverd = rqst.data["is_deliverd"]
+                ord.save
+                return Response(status=200)            
+            return Response(status=400)
+        return Response(status=403)
+    
+    
+    if rqst.method == "DELETE":
+        
+        if rqst.user.groups.filter(name = "manager").exists():
+            if inp:
+                order.objects.get(id = inp).delete()
+                return Response(status=200)            
+            return Response(status=400)
+        return Response(status=403)
+    

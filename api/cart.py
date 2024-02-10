@@ -1,15 +1,19 @@
 from rest_framework.response    import Response
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes,throttle_classes
 from rest_framework.authentication import TokenAuthentication
+
+from rest_framework.throttling import AnonRateThrottle,UserRateThrottle
+from .throttling import Five_by_h
 
 from .models import item,itme_in_cart,cart
 from .serializers import cart_item_srlz,items_srlz
 
 
 
-@permission_classes([IsAuthenticated])   
+@permission_classes([IsAuthenticated])
+@throttle_classes([UserRateThrottle])
 @api_view(["GET","POST","PUT","DELETE"])
 def cart_fncs(rqst):
       

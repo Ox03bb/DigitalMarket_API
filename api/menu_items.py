@@ -4,8 +4,11 @@ from rest_framework.views       import APIView
 from rest_framework             import status
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes,throttle_classes
 from rest_framework.authentication import TokenAuthentication
+
+from rest_framework.throttling import AnonRateThrottle,UserRateThrottle
+from .throttling import Five_by_h
 
 from .models import item,category,order
 from .serializers import items_srlz,items_srlz_mngr,category_srlz,POST_items_srlz
@@ -108,6 +111,7 @@ def updater(rqst,inp):
     
 #!=====================================================
 @permission_classes([AllowAny])   
+@throttle_classes([AnonRateThrottle,UserRateThrottle])
 @api_view(["GET","POST","PUT","DELETE"])
 def menu_items(rqst,inp=None):
     ord_var = rqst.query_params.get("ord") # ordring by

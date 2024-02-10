@@ -7,9 +7,12 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import make_password
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes,throttle_classes
 from rest_framework.authentication import TokenAuthentication
 
+from rest_framework.throttling import AnonRateThrottle,UserRateThrottle
+from .throttling import Five_by_h
+from rest_framework.authtoken.views import ObtainAuthToken
 
 from .models import item,category,order,cart
 from .serializers import user_srlz,mngr_srlz,POST_user_srlz
@@ -189,7 +192,8 @@ def users(rqst,inp=None):
                 return Response({"msg":"bad request"},400)
 
 
-@permission_classes([IsAuthenticated])   
+@permission_classes([IsAuthenticated])
+@throttle_classes([UserRateThrottle])   
 @api_view(["GET","PUT","DELETE"])
 def me(rqst):
     if rqst.method == "GET":
@@ -275,7 +279,18 @@ def all_dely(rqst,inp=None):
 #?======================-==================-===========================
 
 #!======================-| Auth |-===========================
-from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.authtoken.views import ObtainAuthToken
+
+
+@api_view(["POST"])
+@throttle_classes([Five_by_h])
+def login(rqst):
+    
+    if rqst.method == "POST":
+        if not rqst.user.is_authenticated:
+            return ObtainAuthToken.as_view()(rqst._request)
+        else:
+            return Response({"msg":"u are alredy auth"},403) 
 
 @permission_classes([IsAuthenticated])   
 @api_view(["POST"])
