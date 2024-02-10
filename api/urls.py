@@ -9,9 +9,10 @@ urlpatterns = [
 
     path('users/',users.users ),
     path('users/me',users.me ),
-    path('users/login',users.login),
-    path('users/logout',users.logout ),
     path('users/<str:inp>',users.users),
+    
+    path('login',users.login),
+    path('logout',users.logout ),
     
     path('groups/manager/users',users.all_mngr),
     path('groups/manager/users/<str:inp>',users.all_mngr),

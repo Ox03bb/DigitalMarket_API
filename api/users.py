@@ -1,14 +1,11 @@
-from django.http                import HttpResponse,JsonResponse
 from rest_framework.response    import Response
-from rest_framework.views       import APIView
-from rest_framework             import status
+
 from django.contrib.auth.models import User,Group
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import make_password
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes, authentication_classes,throttle_classes
-from rest_framework.authentication import TokenAuthentication
 
 from rest_framework.throttling import AnonRateThrottle,UserRateThrottle
 from .throttling import Five_by_h
@@ -54,8 +51,10 @@ def updater(rqst,inp):
         if "email" in rqst.data:
                 if User.objects.filter(email = rqst.data["email"]):
                    return Response({"msg":"exists email"},400)
-                usr_oldt.email = rqst.data["email"]
-        
+                if chek_email(rqst):
+                    usr_oldt.email = rqst.data["email"]
+                else:
+                    return Response({"msg":"email Not valid"},400)
         if "groups" in rqst.data :
             # - for delet gfrom group || split for add in many groups one time
             grp = Group.objects.filter(id__in=rqst.data["groups"])
@@ -86,7 +85,15 @@ def updater(rqst,inp):
         return Response({"msg":"bad request"},400)
 
 #?===============================================================
+#?==================|check_Email Function |======================
+def chek_email(rqst):
+    email =rqst.data["email"]
+    ptt  = "^[a-zA-Z0-9. _-]+@[a-zA-Z0-9. -]+\. [a-zA-Z]{2,4}$"
+    if re.search(pattern=ptt,string=email) :
+        return 1
+    return 0
 #?=================|check_password Function |====================
+
 def chek_pass(rqst,usr_oldt=None):
     first_tst = 0
     pss =rqst.data["password"]
