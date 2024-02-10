@@ -19,5 +19,6 @@ urlpatterns = [
     path('groups/delivery-crew/users/<str:inp>',users.all_dely ),
 
     path('orders',order.ord_fncs),
+    path('orders/<str:inp>',order.ord_fncs),
 
 ]

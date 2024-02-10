@@ -75,7 +75,7 @@ class ord_itm_srlz(serializers.ModelSerializer):
         # read_only_fields = ["id","date_joined","last_login"]
         # extra_kwargs = {'password': {'write_only': True}}
 class ord_srlz(serializers.ModelSerializer):
-    ord_itm =items_srlz(many=True, read_only=True)
+    ord_itm = ord_itm_srlz(many=True, read_only=True)
     class Meta:
         model = order
         fields = ["id","user_id","date","is_deliverd","ord_itm"]
