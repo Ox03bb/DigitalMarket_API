@@ -81,7 +81,7 @@
   </tbody>
 </table>
 
-** This is not all endpointes, i'll add the rset later
+** This is not all endpointes, i'll add the rset later **
 
 #### This project is under Devlopment
 
