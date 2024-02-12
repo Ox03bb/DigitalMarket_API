@@ -1,4 +1,4 @@
-[![Python Version](https://img.shields.io/badge/Python-5.0.1-blue.svg)](https://www.python.org/)  [![Django Version](https://img.shields.io/badge/Django-5.0.1-Green.svg)](https://www.djangoproject.com/) [![DRF Version](https://img.shields.io/badge/DjangoRestFramework-3.9.3-red)](https://www.django-rest-framework.org/)  [![SQLite3 Version](https://img.shields.io/badge/SQLite-3-silver.svg)](https://www.sqlite.org/index.html)
+[![Python Version](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)  [![Django Version](https://img.shields.io/badge/Django-5.0.1-Green.svg)](https://www.djangoproject.com/) [![DRF Version](https://img.shields.io/badge/DjangoRestFramework-3.9.3-red)](https://www.django-rest-framework.org/)  [![SQLite3 Version](https://img.shields.io/badge/SQLite-3-silver.svg)](https://www.sqlite.org/index.html)
 
 
 # API Endpointes
