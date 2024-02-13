@@ -2,7 +2,7 @@
 
 
 # API Endpointes
-
+<br>
 <table>
 <thead>
 <tr>
@@ -227,7 +227,70 @@
 </tbody>
 </table>
 
-** This is not all endpointes, i'll add the rset later **
+## Order management endpoints
+
+<table>
+<thead>
+<tr>
+<th scope="col"><p><span><strong><span>Endpoint</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Role</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Method</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Purpose</span></strong></span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p><span><var><span>/api/orders</span></var></span></p></td>
+<td><p><span><span>Customer</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Returns all orders with order items created by this user</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/orders</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Customer</span></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><var><span>POST</span></var></span></p></td>
+<td><p><span><span>Creates a new order item for the current user. Gets current cart items from the cart endpoints and adds those items to the order items table. Then deletes all items from the cart for this user.</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/orders/{orderId}</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Customer</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Returns all items for this order id. If the order ID doesn’t belong to the current user, it displays an appropriate HTTP error status code.</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/orders</span></var></span></p></td>
+<td><p><span><span>Manager</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Returns all orders with order items by all users</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/orders/{orderId}</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Customer</span></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><var><span>PUT</span></var></span><span><span>, </span></span><span><var><span>PATCH</span></var></span></p></td>
+<td><p><span><span>Updates the order. A manager can use this endpoint to set a delivery crew to this order, and also update the order status to 0 or 1.</span></span></p><p><span><span>If a delivery crew is assigned to this order and the </span></span><span><var><span>status = 0</span></var></span><span><span>, it means the order is out for delivery.</span></span></p><p><span><span>If a delivery crew is assigned to this order and the </span></span><span><var><span>status = 1</span></var></span><span><span>, it means the order has been delivered.</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/orders/{orderId}</span></var></span></p></td>
+<td><p><span><span>Manager</span></span></p></td>
+<td><p><span><var><span>DELETE</span></var></span></p></td>
+<td><p><span><span>Deletes this order</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/orders</span></var></span></p></td>
+<td><p><span><span>Delivery crew</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Returns all orders with order items assigned to the delivery crew</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/orders/{orderId}</span></var></span></p></td>
+<td><p><span><span>Delivery crew</span></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><var><span>PATCH</span></var></span></p></td>
+<td><p><span><span>A delivery crew can use this endpoint to update the order status to 0 or 1. The delivery crew will not be able to update anything else in this order.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+**This is not all endpointes, i'll add the rset later**
 
 #### This project is under Devlopment
 
@@ -265,6 +328,6 @@
 
 6. Access the API at `http://localhost:8000/`.
 
---
 
+<hr>
 Feel free to reach out with any questions, feedback, or suggestions!
