@@ -37,8 +37,12 @@
 <td><p><span><span>Displays only the current user</span></span></p></td>
 </tr>
 
-<tr>
-</tr>
+ <tr>
+      <td><p><span><span>&nbsp;</span></span></p></td>
+      <td><p><span><span>&nbsp;</span></span></p></td>
+      <td><p><span><span>&nbsp;</span></span></p></td>
+      <td><p><span><span>&nbsp;</span></span></p></td>
+ </tr>
 
 <tr>
 <td><p><span><var><span>/login</span></var></span></p></td>
@@ -130,6 +134,57 @@
       <td><p><span><span>Deletes menu item</span></span></p></td>
     </tr>
   </tbody>
+</table>
+
+## User group management endpoints
+
+<table>
+<thead>
+<tr>
+<th scope="col"><p><span><strong><span>Endpoint</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Role</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Method</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Purpose</span></strong></span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p><span><var><span>/api/groups/manager/users</span></var></span></p></td>
+<td><p><span><span>Manager</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Returns all managers</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/groups/manager/users/{userId}</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Manager</span></span></p></td>
+<td><p><span><var><span>POST</span></var></span></p></td>
+<td><p><span><span>Assigns the user in the payload to the manager group and returns </span></span><span><var><span>201-Created</span></var></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/groups/manager/users/{userId}</span></var></span></p></td>
+<td><p><span><span>Manager</span></span></p></td>
+<td><p><span><var><span>DELETE</span></var></span></p></td>
+<td><p><span><span>Removes this particular user from the manager group and returns </span></span><span><var><span>200 – Success</span></var></span><span><span> if everything is okay.</span></span></p><p><span><span>If the user is not found, returns </span></span><span><var><span>404 – Not found</span></var></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/groups/delivery-crew/users</span></var></span></p></td>
+<td><p><span><span>Manager</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Returns all delivery crew</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/groups/delivery-crew/users/{userId}</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Manager</span></span></p></td>
+<td><p><span><var><span>POST</span></var></span></p></td>
+<td><p><span><span>Assigns the user in the payload to delivery crew group and returns </span></span><span><var><span>201-Created</span></var></span><span><span> HTTP</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/groups/delivery-crew/users/{userId}</span></var></span></p></td>
+<td><p><span><span>Manager</span></span></p></td>
+<td><p><span><var><span>DELETE</span></var></span></p></td>
+<td><p><span><span>Removes this user from the manager group and returns </span></span><span><var><span>200 – Success</span></var></span><span><span> if everything is okay.</span></span></p><p><span><span>If the user is not found, returns&nbsp; </span></span><span><var><span>404 – Not found</span></var></span></p></td>
+</tr>
+</tbody>
 </table>
 
 ** This is not all endpointes, i'll add the rset later **
