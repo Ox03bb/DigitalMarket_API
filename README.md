@@ -290,7 +290,6 @@
 </tbody>
 </table>
 
-**This is not all endpointes, i'll add the rset later**
 
 #### This project is under Devlopment
 
@@ -330,4 +329,5 @@
 
 
 <hr>
+
 Feel free to reach out with any questions, feedback, or suggestions!
