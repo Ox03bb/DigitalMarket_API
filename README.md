@@ -2,6 +2,7 @@
 
 
 # API Endpointes
+
 <table>
 <thead>
 <tr>
@@ -45,13 +46,13 @@
  </tr>
 
 <tr>
-<td><p><span><var><span>/login</span></var></span></p></td>
+<td><p><span><var><span>/api/login</span></var></span></p></td>
 <td><p><span><span>Anyone with a valid username and password</span></span></p></td>
 <td><p><span><var><span>POST</span></var></span></p></td>
 <td><p><span><span>Generates access tokens that can be used in other API calls in this project</span></span></p></td>
 </tr>
 <tr>
-<td><p><span><var><span>/logout</span></var></span></p></td>
+<td><p><span><var><span>/api/logout</span></var></span></p></td>
 <td><p><span><span>Anyone has already logged in</span></span></p></td>
 <td><p><span><var><span>POST</span></var></span></p></td>
 <td><p><span><span>Deleting the token from the database for security reasons</span></span></p></td>
@@ -187,6 +188,45 @@
 </tbody>
 </table>
 
+## Cart management endpoints 
+
+<table>
+<thead>
+<tr>
+<th scope="col"><p><span><strong><span>Endpoint</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Role</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Method</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Purpose</span></strong></span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p><span><var><span>/api/cart</span></var></span></p></td>
+<td><p><span><span>Customer</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Returns current items in the cart for the current user token</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/cart</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Customer</span></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><var><span>POST</span></var></span></p></td>
+<td><p><span><span>Adds the menu item to the cart. Sets the authenticated user as the user id for these cart items</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/cart</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Customer</span></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><var><span>PUT</span></var></span></p></td>
+<td><p><span><span>Update the quantity of product {id,cnt} OR delete one item from the cart {id} only</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/cart</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Customer</span></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><var><span>DELETE</span></var></span></p></td>
+<td><p><span><span>Deletes all menu items created by the current user token</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
 ** This is not all endpointes, i'll add the rset later **
 
 #### This project is under Devlopment
@@ -225,6 +265,6 @@
 
 6. Access the API at `http://localhost:8000/`.
 
----
+--
 
 Feel free to reach out with any questions, feedback, or suggestions!
