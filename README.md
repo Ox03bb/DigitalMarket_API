@@ -3,8 +3,59 @@
 
 # API Endpointes
 <table>
-<thead><tr><th scope="col"><p><span><strong><span>Endpoint</span></strong></span></p></th><th scope="col"><p><span><strong><span>Role</span></strong></span></p></th><th scope="col"><p><span><strong><span>Method</span></strong></span></p></th><th scope="col"><p><span><strong><span>Purpose</span></strong></span></p></th></tr></thead><tbody><tr><td><p><span><var><span>/api/users</span></var></span></p></td><td><p><span><span>No role required</span></span></p></td><td><p><span><var><span>POST</span></var></span></p></td><td><p><span><span>Creates a new user with name, email , password,...etc</span></span></p></td></tr><tr><td><p><span><var><span>/api/users/users/me/</span></var></span></p><p><span><span>&nbsp;</span></span></p></td><td><p><span><span>Anyone with a valid user token</span></span></p></td><td><p><span><var><span>GET</span></var></span></p></td><td><p><span><span>Displays only the current user</span></span></p></td></tr><tr><td><p><span><var><span>/login</span></var></span></p></td><td><p><span><span>Anyone with a valid username and password</span></span></p></td><td><p><span><var><span>POST</span></var></span></p></td><td><p><span><span>Generates access tokens that can be used in other API calls in this project</span></span></p></td></tr><tr><td><p><span><var><span>/logout</span></var></span></p></td><td><p><span><span>Anyone has alredy login</span></span></p></td><td><p><span><var><span>POST</span></var></span></p></td><td><p><span><span>Deleting the token from the database for security reasons</span></span></p></td></tr></tbody>
+<thead>
+<tr>
+<th scope="col"><p><span><strong><span>Endpoint</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Role</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Method</span></strong></span></p></th>
+<th scope="col"><p><span><strong><span>Purpose</span></strong></span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p><span><var><span>/api/users</span></var></span></p></td>
+<td><p><span><span>No role required</span></span></p></td>
+<td><p><span><var><span>POST</span></var></span></p></td>
+<td><p><span><span>Creates a new user with name, email , password,...etc</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/users</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>manager</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>List all users with ther info</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/users/{id}</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>manager</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Show the users number {id} info</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/api/users/me/</span></var></span></p><p><span><span>&nbsp;</span></span></p></td>
+<td><p><span><span>Anyone with a valid user token</span></span></p></td>
+<td><p><span><var><span>GET</span></var></span></p></td>
+<td><p><span><span>Displays only the current user</span></span></p></td>
+</tr>
+
+<tr>
+</tr>
+
+<tr>
+<td><p><span><var><span>/login</span></var></span></p></td>
+<td><p><span><span>Anyone with a valid username and password</span></span></p></td>
+<td><p><span><var><span>POST</span></var></span></p></td>
+<td><p><span><span>Generates access tokens that can be used in other API calls in this project</span></span></p></td>
+</tr>
+<tr>
+<td><p><span><var><span>/logout</span></var></span></p></td>
+<td><p><span><span>Anyone has already logged in</span></span></p></td>
+<td><p><span><var><span>POST</span></var></span></p></td>
+<td><p><span><span>Deleting the token from the database for security reasons</span></span></p></td>
+</tr>
+</tbody>
 </table>
+</body>
+</html>
  
  ## Menu-items endpoints
  
@@ -69,7 +120,7 @@
     <tr>
       <td><p><span><var><span>/api/menu-items/{menuItem}</span></var></span></p></td>
       <td><p><span><span>Manager</span></span></p></td>
-      <td><p><span><var><span>PUT</span></var></span><span><span>, </span></span><span><var><span>PATCH</span></var></span></p></td>
+      <td><p><span><var><span>PUT</span></var></span></p></td>
       <td><p><span><span>Updates single menu item</span></span></p></td>
     </tr>
     <tr>
