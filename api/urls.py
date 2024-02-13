@@ -19,6 +19,8 @@ urlpatterns = [
     path('groups/delivery-crew/users',users.all_dely ),
     path('groups/delivery-crew/users/<str:inp>',users.all_dely ),
 
+    path('cart/',cart.cart_fncs),
+    
     path('orders',order.ord_fncs),
     path('orders/<str:inp>',order.ord_fncs),
 
