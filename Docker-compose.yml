@@ -1,24 +1,35 @@
 version: '3.9'
-
+# project: image:api
 services:
-  django:
-    build: .
-    command: ["python", "manage.py", "runserver"]
-
   db:
+    hostname: db
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: Django
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+
     expose:
       - 3306
-    
+      - 3307
+
+  
   phpmyadmin:
     image: phpmyadmin:latest
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
+   
     ports:
-      - "8888:80"
+      - "80:80"
+
+    depends_on:
+      - db
+  
+  django:
+    build: .
+    ports:
+      - "8000:8000"
+   
+    # command: ["python3", "manage.py", "runserver"]
+    depends_on:
+      - db
