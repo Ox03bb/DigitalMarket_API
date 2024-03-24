@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Use this script to test if a given TCP host/port are available
+#! i don't use this script, i use healthcheck in docker-compose.yml
+#? this secript is not mine, i found it in github 
 
 WAITFORIT_cmdname=${0##*/}
 

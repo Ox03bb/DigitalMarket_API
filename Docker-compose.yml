@@ -10,7 +10,12 @@ services:
 
     expose:
       - 3306
-      - 3307
+
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "db", "-u", "root", "-p root"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
 
   
   phpmyadmin:
@@ -30,6 +35,7 @@ services:
     ports:
       - "8000:8000"
    
-    # command: ["python3", "manage.py", "runserver"]
+    command: ["python", "manage.py", "migrate"]
     depends_on:
-      - db
+      db:
+        condition: service_healthy

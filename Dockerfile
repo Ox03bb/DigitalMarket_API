@@ -15,7 +15,7 @@ COPY . .
  
 RUN python manage.py makemigrations
 
-CMD ["./wait-for-it.sh", "db:3306", "&&", "python", "manage.py", "migrate"]
+# CMD ["./wait-for-it.sh", "db:3306", "&&", "python", "manage.py", "migrate"]
 # CMD [wait-for-it.sh     , "--", "python", "manage.py", "migrate"]
 #5432
 # CMD [ "python", "manage.py", "runserver"]
