@@ -12,8 +12,13 @@ RUN chmod +x wait-for-it.sh
 
 
 COPY . .
- 
-RUN python manage.py makemigrations
+
+EXPOSE 8000
+
+RUN python manage.py makemigrations --noinput
+
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+# RUN python manage.py makemigrations
 
 # CMD ["./wait-for-it.sh", "db:3306", "&&", "python", "manage.py", "migrate"]
 # CMD [wait-for-it.sh     , "--", "python", "manage.py", "migrate"]
