@@ -1,6 +1,48 @@
 version: '3.9'
-
+# project: image:api
+# ihave aprobleme with django service it's droping after after migration
 services:
-  backend:
+  db:
+    hostname: db
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: Django
+      MYSQL_ROOT_PASSWORD: root
+    # ports:
+    #   - "3306:3306"
+    expose:
+      - 3306
+
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "db", "-u", "root", "-p root"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+
+  
+  phpmyadmin:
+    image: phpmyadmin:latest
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+   
+    ports:
+      - "80:80"
+
+    depends_on:
+      - db
+  
+  django:
+    depends_on:
+     db:
+       condition: service_healthy
+       
     build: .
-    command: ["python", "manage.py", "runserver"]
+    ports:
+      - "8000:8000"
+      # - "4444:4444"
+   
+    # command: bash -c "python manage.py makemigrations; python manage.py migrate; python manage.py runserver"
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+
+    restart: always
