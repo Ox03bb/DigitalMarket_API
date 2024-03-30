@@ -320,12 +320,26 @@
     ```bash
     python manage.py migrate
     ```
-
+    
 5. Run the development server:
 
     ```bash
     python manage.py runserver
     ```
+
+# Using Docker 
+
+1. Ensure you have Docker Engine  installed on your system.
+  
+2. open terminal/cmd .
+   
+3. Run the following command to build and start the Docker services:
+
+```bash
+docker-compose up -d
+ ```
+
+** NOTE **: if you faced any problem with django server, just Restart it.
 
 6. Access the API at `http://localhost:8000/`.
 
