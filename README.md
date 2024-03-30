@@ -326,6 +326,8 @@
     ```bash
     python manage.py runserver
     ```
+    
+6. Access the API at `http://localhost:8000/`.
 
 # Using Docker 
 
@@ -338,10 +340,12 @@
 ```bash
 docker-compose up -d
  ```
-
-** NOTE **: if you faced any problem with django server, just Restart it.
-
 6. Access the API at `http://localhost:8000/`.
+  
+7. Access the phpMyAdmin at `http://localhost:80/`.
+   
+##### NOTE : if you faced any problem with django server, just Restart it.
+
 
 
 <hr>
