@@ -1,5 +1,10 @@
+
 [![Python Version](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)  [![Django Version](https://img.shields.io/badge/Django-5.0.1-Green.svg)](https://www.djangoproject.com/) [![DRF Version](https://img.shields.io/badge/DjangoRestFramework-3.9.3-red)](https://www.django-rest-framework.org/)  [![SQLite3 Version](https://img.shields.io/badge/SQLite-3-silver.svg)](https://www.sqlite.org/index.html)
 
+<img src="https://img.shields.io/badge/Python-3.11-blue.svg">
+img{
+    text-align: center;
+}
 
 # API Endpointes
 <br>
@@ -320,32 +325,14 @@
     ```bash
     python manage.py migrate
     ```
-    
+
 5. Run the development server:
 
     ```bash
     python manage.py runserver
     ```
-    
+
 6. Access the API at `http://localhost:8000/`.
-
-# Using Docker 
-
-1. Ensure you have Docker Engine  installed on your system.
-  
-2. open terminal/cmd .
-   
-3. Run the following command to build and start the Docker services:
-
-```bash
-docker-compose up -d
- ```
-6. Access the API at `http://localhost:8000/`.
-  
-7. Access the phpMyAdmin at `http://localhost:80/`.
-   
-##### NOTE : if you faced any problem with django server, just Restart it.
-
 
 
 <hr>
