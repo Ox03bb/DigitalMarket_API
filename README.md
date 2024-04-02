@@ -1,5 +1,8 @@
 <p align="center">
-[![Python Version](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)  [![Django Version](https://img.shields.io/badge/Django-5.0.1-Green.svg)](https://www.djangoproject.com/) [![DRF Version](https://img.shields.io/badge/DjangoRestFramework-3.9.3-red)](https://www.django-rest-framework.org/)  [![SQLite3 Version](https://img.shields.io/badge/SQLite-3-silver.svg)](https://www.sqlite.org/index.html)
+<a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11-blue.svg" alt="Python Version"></a>
+<a href="https://www.djangoproject.com/"><img src="https://img.shields.io/badge/Django-5.0.1-Green.svg" alt="Django Version"></a>
+<a href="https://www.django-rest-framework.org/"><img src="https://img.shields.io/badge/DjangoRestFramework-3.9.3-red" alt="DRF Version"></a>
+<a href="https://www.sqlite.org/index.html"><img src="https://img.shields.io/badge/SQLite-3-silver.svg" alt="SQLite3 Version"></a>
 </p>
 
 # API Endpointes
