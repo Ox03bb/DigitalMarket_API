@@ -1,7 +1,7 @@
 <p align="center">
-
 <img src="https://github.com/Ox03bb/DigitalMarket_API/assets/145577560/64cb5927-4e19-4a6e-82c2-c68f6c00b955" alt="DRF">
-
+</p>
+<p align="center">
 <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11-blue.svg" alt="Python Version"></a>
 <a href="https://www.djangoproject.com/"><img src="https://img.shields.io/badge/Django-5.0.1-Green.svg" alt="Django Version"></a>
 <a href="https://www.django-rest-framework.org/"><img src="https://img.shields.io/badge/DjangoRestFramework-3.9.3-red" alt="DRF Version"></a>
